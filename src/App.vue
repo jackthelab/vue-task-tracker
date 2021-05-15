@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
-    <Tasks @change-reminder="changeReminder" @delete-task="deleteTask  " :tasks="tasks" />
+    <AddTask @add-task="addTask" />
+    <Tasks 
+      @change-reminder="changeReminder"
+      @delete-task="deleteTask"
+      :tasks="tasks"
+    />
   </div>
 </template>
 
@@ -9,12 +14,14 @@
 
   import Header from './components/Header'
   import Tasks from './components/Tasks'
+  import AddTask from './components/AddTask'
 
   export default {
     name: 'App',
     components: {
       Header,
-      Tasks
+      Tasks,
+      AddTask
     },
     data() {
       return {
@@ -30,19 +37,35 @@
         }
       },
       changeReminder(id) {
-        let task = this.tasks.find((task) => task.id === id)
-        let alertMessage
+        // let task = this.tasks.find((task) => task.id === id)
+        // let alertMessage
 
-        if(task.reminder) {
-          alertMessage = "Are you sure you want to remove this alert?"
-        } else {
-          alertMessage = "Confirm adding an alert to this task."
-        }
+        // if(task.reminder) {
+        //   alertMessage = "Are you sure you want to remove this alert?"
+        // } else {
+        //   alertMessage = "Confirm adding an alert to this task."
+        // }
 
-        if(confirm(alertMessage)) {
-          task.reminder = !task.reminder
-        }
+        // if(confirm(alertMessage)) {
+        //   task.reminder = !task.reminder
+        // }
 
+        // or this....
+
+        this.tasks = this.tasks.map((task) => 
+        task.id === id
+        ?
+          confirm("Confirm this change")
+          ?
+          {...task, reminder: !task.reminder}
+          :
+          task
+        :
+        task )
+
+      },
+      addTask(task) {
+        this.tasks.push(task)
       }
     },
     created() {
