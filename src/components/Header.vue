@@ -2,7 +2,7 @@
 
   <header>
     <h1>{{ title }}</h1>
-    <Button color="green" />
+    <Button @click="toggleTaskForm" color="green" />
     <!-- <Button text="Update Task" color="blue" />
     <Button text="Delete Task" color="red" /> -->
   </header>
@@ -27,7 +27,13 @@ import Button from './Button'
     },
     components: {
       Button
-    }
+    },
+    methods: {
+      toggleTaskForm() {
+        this.$emit('toggle-task-form')
+      }
+    },
+    emits: ['toggle-task-form']
   }
 
 </script>

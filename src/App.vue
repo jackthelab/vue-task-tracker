@@ -1,7 +1,12 @@
 <template>
   <div class="container">
-    <Header title="Task Tracker" />
-    <AddTask @add-task="addTask" />
+    <Header
+      @toggle-task-form="toggleTaskForm"
+      title="Task Tracker"
+    />
+    <div v-if="showAddTask">
+      <AddTask @add-task="addTask" />
+    </div>
     <Tasks 
       @change-reminder="changeReminder"
       @delete-task="deleteTask"
@@ -25,9 +30,8 @@
     },
     data() {
       return {
-        tasks: [
-
-        ]
+        tasks: [],
+        showAddTask: false
       }
     },
     methods: {
@@ -66,6 +70,9 @@
       },
       addTask(task) {
         this.tasks = [...this.tasks, task]
+      },
+      toggleTaskForm() {
+        this.showAddTask = !this.showAddTask
       }
     },
     created() {
