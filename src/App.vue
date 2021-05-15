@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
-    <Tasks @delete-task="deleteTask  " :tasks="tasks" />
+    <Tasks @change-reminder="changeReminder" @delete-task="deleteTask  " :tasks="tasks" />
   </div>
 </template>
 
@@ -28,6 +28,21 @@
         if(confirm('Are you sure you want to delete this task?')) {
           this.tasks = this.tasks.filter((task) => task.id !== id)
         }
+      },
+      changeReminder(id) {
+        let task = this.tasks.find((task) => task.id === id)
+        let alertMessage
+
+        if(task.reminder) {
+          alertMessage = "Are you sure you want to remove this alert?"
+        } else {
+          alertMessage = "Confirm adding an alert to this task."
+        }
+
+        if(confirm(alertMessage)) {
+          task.reminder = !task.reminder
+        }
+
       }
     },
     created() {

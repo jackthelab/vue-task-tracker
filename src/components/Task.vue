@@ -2,7 +2,10 @@
   <div :class="[task.reminder ? 'reminder' : '', 'task']">
     <h3>
       {{ task.text }} 
-      <i @click="deleteTask(task.id)" class="fas fa-times"></i>
+      <div class="icons">
+        <i @click="changeReminder(task.id)" class="far fa-bell"></i>
+        <i @click="deleteTask(task.id)" class="fas fa-times"></i>
+      </div>
       </h3>
     <p>{{ task.day }}</p>
   </div>
@@ -17,6 +20,9 @@ export default {
   methods: {
     deleteTask(id) {
       this.$emit('delete-task', id)
+    },
+    changeReminder(id) {
+      this.$emit('change-reminder', id)
     }
   }
 }
@@ -42,5 +48,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .icons i {
+    margin: 0 5px;
   }
 </style>
