@@ -13,7 +13,7 @@
       <input type="checkbox" v-model="reminder" name="reminder"/>
     </div>
     <div class="form-control">
-      <input class="btn" type="submit" value="Add Task"/>
+      <input class="btn" type="submit" value="Save Task"/>
     </div>
   </form>
 </template>
