@@ -65,7 +65,7 @@
 
       },
       addTask(task) {
-        this.tasks.push(task)
+        this.tasks = [...this.tasks, task]
       }
     },
     created() {
