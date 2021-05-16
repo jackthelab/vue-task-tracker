@@ -3,6 +3,7 @@
   <header>
     <h1>{{ title }}</h1>
     <Button
+      v-show="homePage"
       @btn-click="$emit('toggle-task-form')"
       :text="showAddTask ? 'Close' : 'Add Task'"
       :color="showAddTask ? 'darkred' : 'darkgreen'"
@@ -35,6 +36,11 @@ import Button from './Button'
     },
     components: {
       Button
+    },
+    computed: {
+      homePage() {
+        return this.$route.path === '/'
+      }
     }
   }
 
