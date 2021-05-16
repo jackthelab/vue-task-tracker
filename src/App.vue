@@ -45,7 +45,12 @@
       },
       async changeReminder(id) {
 
-        const taskToToggle = await this.fetchTask(id)
+        // const taskToToggle = await this.fetchTask(id)
+
+        // the above was an unnecessary fetch call
+        // eliminating it by working on front end (below) eliminates half of required fetches in this method
+        const taskToToggle = this.tasks.find((task) => task.id === id)
+
         const updTask = {...taskToToggle, reminder: !taskToToggle.reminder}
 
         const res = await fetch(`api${id}`, {
@@ -58,7 +63,6 @@
 
         const resData = await res.json()
 
-        // this.tasks = await this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
         this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: resData.reminder} : task)
 
       },
