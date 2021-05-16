@@ -40,44 +40,26 @@
       async deleteTask(id) {
         if(confirm('Are you sure you want to delete this task?')) {
           const res = await fetch(`api${id}`, {method: 'DELETE'})
-          res.status === 200 ? this.tasks = this.tasks.filter((task) => task.id !== id) : console.log(`Unable to delete. Status: ${res.status}`)
+          res.status === 200 ? this.tasks = this.tasks.filter((task) => task.id !== id) : alert(`Unable to delete. Status: ${res.status}`)
         }
       },
       async changeReminder(id) {
-        // let task = await this.tasks.find((task) => task.id === id)
-        // let alertMessage
 
-        // if(task.reminder) {
-        //   alertMessage = "Are you sure you want to remove this alert?"
-        // } else {
-        //   alertMessage = "Confirm adding an alert to this task."
-        // }
+        const taskToToggle = await this.fetchTask(id)
+        const updTask = {...taskToToggle, reminder: !taskToToggle.reminder}
 
-        // if(confirm(alertMessage)) {
-        //   task.reminder = !task.reminder
-        // }
+        const res = await fetch(`api${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(updTask)
+        })
 
-        // or this....
+        const resData = await res.json()
 
-        // const reqObj = await {
-        //   headers: {
-        //     "Content-Type": "application-json"
-        //   },
-        //   method: "PUT",
-        //   body: JSON.stringify({
-        //     "id": task.id,
-        //     "text": task.text,
-        //     "day": task.day,
-        //     "reminder": !task.reminder
-        //   })
-        // }
-
-        // await console.log(reqObj)
-
-        // const res = await fetch(`api${id}`, reqObj)
-        // await res.status === 200 ? console.log('successfully updated backend') : console.log('something went wrong') ;
-
-        this.tasks = await this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
+        // this.tasks = await this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
+        this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: resData.reminder} : task)
 
       },
       async addTask(task) {
