@@ -37,13 +37,14 @@
       }
     },
     methods: {
-      deleteTask(id) {
+      async deleteTask(id) {
         if(confirm('Are you sure you want to delete this task?')) {
-          this.tasks = this.tasks.filter((task) => task.id !== id)
+          const res = await fetch(`api${id}`, {method: 'DELETE'})
+          res.status === 200 ? this.tasks = this.tasks.filter((task) => task.id !== id) : console.log(`Unable to delete. Status: ${res.status}`)
         }
       },
-      changeReminder(id) {
-        // let task = this.tasks.find((task) => task.id === id)
+      async changeReminder(id) {
+        // let task = await this.tasks.find((task) => task.id === id)
         // let alertMessage
 
         // if(task.reminder) {
@@ -58,21 +59,30 @@
 
         // or this....
 
-        this.tasks = this.tasks.map((task) => 
-        task.id === id
-        ?
-          confirm("Confirm this change")
-          ?
-          {...task, reminder: !task.reminder}
-          :
-          task
-        :
-        task )
+        // const reqObj = await {
+        //   headers: {
+        //     "Content-Type": "application-json"
+        //   },
+        //   method: "PUT",
+        //   body: JSON.stringify({
+        //     "id": task.id,
+        //     "text": task.text,
+        //     "day": task.day,
+        //     "reminder": !task.reminder
+        //   })
+        // }
+
+        // await console.log(reqObj)
+
+        // const res = await fetch(`api${id}`, reqObj)
+        // await res.status === 200 ? console.log('successfully updated backend') : console.log('something went wrong') ;
+
+        this.tasks = await this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
 
       },
-      addTask(task) {
+      async addTask(task) {
 
-        const reqObj = {
+        const reqObj =  await {
           headers: {
             "Content-Type": "application/json"
           },
@@ -80,13 +90,10 @@
           body: JSON.stringify(task)
         }
 
-        fetch('http://localhost:5000/tasks', reqObj)
-          .then(res = res.json())
-          .then(_ => {
-            this.tasks = [...this.tasks, task]
-            console.log(this.tasks)
-          })
-        // this.tasks = [...this.tasks, task]
+        const res = await fetch('http://localhost:5000/tasks', reqObj)
+        const taskData = await res.json()
+
+        this.tasks = await [...this.tasks, taskData]
 
       },
       toggleTaskForm() {
