@@ -1,7 +1,13 @@
 <template>
 <!-- instead of @click could also have written v-on:click="onClick()" -->
 
-  <button @click="addTask()" :style="{background: color}" class="btn">{{ text }}</button>
+  <button
+    @click="btnClick()"
+    :style="{background: color}"
+    class="btn"
+  >
+    {{ text }}
+  </button>
 
 </template>
 
@@ -19,8 +25,8 @@ export default {
     }
   },
   methods: {
-    addTask() {
-      console.log("Adding a Task")
+    btnClick() {
+      this.$emit('btn-click')
     }
   }
 }

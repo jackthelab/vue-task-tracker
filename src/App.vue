@@ -3,7 +3,9 @@
     <Header
       @toggle-task-form="toggleTaskForm"
       title="Task Tracker"
+      :showAddTask="showAddTask"
     />
+    <!-- could also use v-show="showAddTask" instead of v-if...  -->
     <div v-if="showAddTask">
       <AddTask @add-task="addTask" />
     </div>
