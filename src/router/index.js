@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import About from '../views/About'
 import Home from '../views/Home'
-import AddTask from '../views/AddTask'
 
 const routes = [
   {
