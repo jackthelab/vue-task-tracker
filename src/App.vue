@@ -31,6 +31,12 @@
       AddTask
     },
     data() {
+
+      // async const getTasks = () => {
+      //   const res = await fetch('http://localhost:5000/tasks')
+      //   const tasksData = await res.json();
+      // }
+
       return {
         tasks: [],
         showAddTask: false
@@ -75,29 +81,16 @@
       },
       toggleTaskForm() {
         this.showAddTask = !this.showAddTask
+      },
+      async fetchTasks() {
+        const res = await fetch('http://localhost:5000/tasks');
+        const tasksData = res.json();
+
+        return tasksData;
       }
     },
-    created() {
-      this.tasks = [
-        {
-          id:1,
-          text: "Doctors Appointment",
-          day: "March 1st @ 2:30pm",
-          reminder: true
-        },
-        {
-          id:2,
-          text: "Meeting @ School",
-          day: "March 3rd @ 1:30pm",
-          reminder: true
-        },
-        {
-          id:3,
-          text: "Food Shopping",
-          day: "March 3rd @ 11:00am",
-          reminder: false
-        }
-      ]
+    async created() {
+      this.tasks = await this.fetchTasks()
     }
   }
 
