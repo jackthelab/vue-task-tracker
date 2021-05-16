@@ -31,12 +31,6 @@
       AddTask
     },
     data() {
-
-      // async const getTasks = () => {
-      //   const res = await fetch('http://localhost:5000/tasks')
-      //   const tasksData = await res.json();
-      // }
-
       return {
         tasks: [],
         showAddTask: false
@@ -77,16 +71,38 @@
 
       },
       addTask(task) {
-        this.tasks = [...this.tasks, task]
+
+        const reqObj = {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify(task)
+        }
+
+        fetch('http://localhost:5000/tasks', reqObj)
+          .then(res = res.json())
+          .then(_ => {
+            this.tasks = [...this.tasks, task]
+            console.log(this.tasks)
+          })
+        // this.tasks = [...this.tasks, task]
+
       },
       toggleTaskForm() {
         this.showAddTask = !this.showAddTask
       },
       async fetchTasks() {
-        const res = await fetch('http://localhost:5000/tasks');
+        const res = await fetch('api');
         const tasksData = res.json();
 
         return tasksData;
+      },
+      async fetchTask(id) {
+        const res = await fetch(`api${id}`);
+        const taskData = res.json();
+
+        return taskData;
       }
     },
     async created() {
